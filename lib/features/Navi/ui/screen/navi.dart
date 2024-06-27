@@ -9,6 +9,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Home/ui/screens/Home.dart';
+import '../../../Muslim_features/category/ui/screens/categories.dart';
 import '../../../UserInfo/ui/screens/settings.dart';
 
 List<Widget> screens = [
@@ -23,11 +24,7 @@ List<Widget> screens = [
       child: Text('Video Call'),
     ),
   ),
-  Container(
-    child: Center(
-      child: Text('Book'),
-    ),
-  ),
+  categories(),
   settings(),
 ];
 

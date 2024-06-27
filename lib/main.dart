@@ -3,11 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:halaqahqurania/features/Auth/ui/screens/signin.dart';
-
-import 'features/Auth/ui/screens/signup.dart';
-import 'features/Navi/ui/screen/navi.dart';
-import 'features/UserInfo/ui/screens/userInfo.dart';
+import 'features/Muslim_features/muslim_features/ui/screens/azkar.dart';
+import 'features/Muslim_features/muslim_features/ui/screens/tasbeh.dart';
 import 'generated/l10n.dart';
 
 void main() {
@@ -42,7 +39,7 @@ class MyApp extends StatelessWidget {
        locale: Locale('en'),
      // locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
-        home:navi(),
+        home:Azkar(),
       ),
     );
   }

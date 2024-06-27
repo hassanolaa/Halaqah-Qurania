@@ -1,32 +1,34 @@
-import 'package:flutter/material.dart';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:halaqahqurania/core/theming/size.dart';
 import 'package:halaqahqurania/core/theming/colors.dart';
 import 'package:halaqahqurania/core/theming/style.dart';
 import 'package:halaqahqurania/features/Auth/ui/widgets/textfield.dart';
 import 'package:halaqahqurania/features/Home/data/models.dart';
+
 import 'package:icons_plus/icons_plus.dart';
+import 'package:flutter/material.dart';
 
-import '../widgets/homewidget.dart';
-import '../widgets/liveIcon.dart';
-
-class Home extends StatefulWidget {
-  const Home({super.key});
+import '../widgets/muslim_grid.dart';
+class categories extends StatefulWidget {
+  const categories({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<categories> createState() => _categoriesState();
 }
 
-class _HomeState extends State<Home> {
+class _categoriesState extends State<categories> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colors.backbackground,
+
       body: SingleChildScrollView(
         child: Column(
           children: [
-            size.height(35),
+               size.height(35),
             // user name and person icon
             Row(
               children: [
@@ -49,43 +51,27 @@ class _HomeState extends State<Home> {
               ],
             ),
             size.height(10),
-            // prays Time
+            // gridview 
             Container(
-              width: MediaQuery.sizeOf(context).width,
-              height: 200.h,
-              decoration: BoxDecoration(
-                image: DecorationImage(image: AssetImage('images/8.png'),fit: BoxFit.cover)
-              ),
-            )
-            // live stream listview  
-            ,Container(
-              height: 95.h,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
+              height: 400.h,
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 1.2,
+                ),
                 itemCount: home_widget_model_list.length,
-                itemBuilder: (context, index) {
-                  return LiveIcon(
-                    imagepath: home_widget_model_list[index].imagepath,);
+                itemBuilder:
+                    (BuildContext context, int index) {
+                  return Muslim_grid(name:home_widget_model_list[index].name , imagepath:home_widget_model_list[index].imagepath ,);
                 },
-              ),
+                ),
             )
-            // Muslim Icons listview
-            , Container(
-              height: 150.h,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: home_widget_model_list.length,
-                itemBuilder: (context, index) {
-                  return Home_widget(
-                    name: home_widget_model_list[index].name,
-                    imagepath: home_widget_model_list[index].imagepath,
-                  );
-                },
-              ),
-            )
+
           ],
         ),
-      ),
+      )
     );
   }
 }
