@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:halaqahqurania/core/routing/router.dart';
 import 'package:halaqahqurania/core/theming/size.dart';
 import 'package:halaqahqurania/core/theming/colors.dart';
 import 'package:halaqahqurania/core/theming/style.dart';
@@ -8,6 +10,8 @@ import 'package:halaqahqurania/features/Auth/ui/widgets/textfield.dart';
 import 'package:halaqahqurania/features/Home/data/models.dart';
 import 'package:halaqahqurania/features/Muslim_features/muslim_features/data/tasbeh.dart';
 import 'package:halaqahqurania/features/Muslim_features/muslim_features/data/zekr.dart';
+
+import '../../cubit/cubit/musilm_cubit.dart';
 
 class tasbeh extends StatefulWidget {
   const tasbeh({super.key});
@@ -19,8 +23,12 @@ class tasbeh extends StatefulWidget {
 class _tasbehState extends State<tasbeh> {
   @override
   Widget build(BuildContext context) {
-    int count = 5;
-    return Scaffold(
+   return BlocProvider(create :(context) => MusilmCubit(), 
+   child: BlocConsumer<MusilmCubit, MusilmState>(
+     listener: (context, state) {},
+     builder: (context, state) {
+      final cubit=BlocProvider.of<MusilmCubit>(context);
+     return Scaffold(
       backgroundColor: colors.backbackground,
       //AppBar
       appBar: AppBar(
@@ -29,7 +37,10 @@ class _tasbehState extends State<tasbeh> {
             Icons.arrow_back,
             color: colors.text,
           ),
-          onPressed: () {},
+          onPressed: () {
+                    context.goBack();
+
+          },
         ),
         title: Text(
           'Tasabeh',
@@ -62,13 +73,16 @@ class _tasbehState extends State<tasbeh> {
                         size.height(60),
                         Text(
                           tasabehList[index].content,
-                          style: textstyle.maintitle.copyWith(fontSize: 20.sp),
+                          style: textstyle.maintitle.copyWith(fontSize: fontsize(tasabehList[index].content.length,13)),
+                          textAlign: TextAlign.center,
                         ),
-                        size.height(80),
+                        size.height(50),
                         Text(
                           tasabehList[index].description,
                           style: textstyle.maintitle
-                              .copyWith(fontSize: 15.sp, color: colors.subtext),
+                              .copyWith(fontSize: subfontsize(tasabehList[index].description.length), color: colors.subtext),
+                          textAlign: TextAlign.center,
+
                         ),
                       ],
                     ),
@@ -82,9 +96,7 @@ class _tasbehState extends State<tasbeh> {
             children: [
               GestureDetector(
                 onTap: () {
-                  setState(() {
-                    count=0;
-                  });
+                 cubit.resettasbeh();
                 },
                 child: Container(
                   height: 80.h,
@@ -103,9 +115,7 @@ class _tasbehState extends State<tasbeh> {
               ),
               GestureDetector(
                 onTap: () {
-                  setState(() {
-                    count++;
-                  });
+                  cubit.incresetasbeh();
                 },
                 child: Container(
                   height: 80.h,
@@ -134,7 +144,7 @@ class _tasbehState extends State<tasbeh> {
               children: [
                 size.height(20),
                 Text(
-                  count.toString(),
+                 cubit.tasbehcount.toString(),
                   style: textstyle.maintitle
                       .copyWith(fontSize: 25.sp, color: colors.background),
                 ),
@@ -149,5 +159,13 @@ class _tasbehState extends State<tasbeh> {
         ],
       ),
     );
+     },
+   ),
+   );
+
+
+
+
+    
   }
 }

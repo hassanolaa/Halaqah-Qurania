@@ -28,3 +28,26 @@ class textstyle{
 
 
 }
+
+  double fontsize(int length, int font){
+    if(length>=80)
+      return font.sp;
+    else if(length>=50)
+      return 18.sp;
+    else if(length>=30)
+      return 24.sp;
+    else
+      return 25.sp;
+
+  }
+   double subfontsize(int length){
+    if(length>=80)
+      return 8.sp;
+    else if(length>=50)
+      return 12.sp;
+    else if(length>=30)
+      return 18.sp;
+    else
+      return 15.sp;
+
+  }

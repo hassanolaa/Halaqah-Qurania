@@ -64,6 +64,7 @@ class _naviState extends State<navi> {
                   IconButton(
                     icon: Icon(Icons.home_outlined),
                     onPressed: () {
+                   
                       setState(() {
                         varscreen = screens[0];
                         selectorfun(0);

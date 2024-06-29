@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:halaqahqurania/core/theming/size.dart';
 import 'package:halaqahqurania/core/theming/colors.dart';
 import 'package:halaqahqurania/core/theming/style.dart';
-import 'package:halaqahqurania/features/Auth/ui/widgets/textfield.dart';
-import 'package:halaqahqurania/features/Home/data/models.dart';
 
-import 'package:icons_plus/icons_plus.dart';
-import 'package:flutter/material.dart';
 
 import '../../data/zekr.dart';
 
@@ -24,6 +19,9 @@ class zekr extends StatefulWidget {
 class _zekrState extends State<zekr> {
   late int count=widget.zekr_obj.count;
 
+
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,19 +34,30 @@ class _zekrState extends State<zekr> {
       child: Column(
         children: [
           size.height(10),
-          Text(
+          
+          Padding(
+            padding:  EdgeInsets.only(right: 10.w,left: 10.w),
+            child: Text(
             widget.zekr_obj.content,
-            style: textstyle.maintitle.copyWith(
-                fontSize: 20.sp,
-                color: colors.text,
-                fontWeight: FontWeight.bold),
+              style: textstyle.maintitle.copyWith(
+                  fontSize: fontsize(widget.zekr_obj.content.length,16),
+                  color: colors.text,
+                  fontWeight: FontWeight.bold),
+                 textAlign: TextAlign.center,
+            ),
           ),
           size.height(10),
-          Text(
-            widget.zekr_obj.description,
-            style: textstyle.maintitle.copyWith(
-              fontSize: 15.sp,
-              color: colors.subtext,
+          
+          Padding(
+            padding:EdgeInsets.only(right: 10.w,left: 10.w),
+            child: Text(
+              widget.zekr_obj.description,
+              style: textstyle.maintitle.copyWith(
+                fontSize: 15.sp,
+                color: colors.subtext,
+              ),
+                   textAlign: TextAlign.center,
+          
             ),
           ),
           size.height(10),
@@ -76,5 +85,7 @@ class _zekrState extends State<zekr> {
     );
   }
 }
+
+
 
 

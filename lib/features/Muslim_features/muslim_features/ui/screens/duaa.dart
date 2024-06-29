@@ -9,24 +9,23 @@ import 'package:halaqahqurania/core/theming/colors.dart';
 import 'package:halaqahqurania/core/theming/style.dart';
 import 'package:halaqahqurania/features/Auth/ui/widgets/textfield.dart';
 import 'package:halaqahqurania/features/Home/data/models.dart';
-import 'package:halaqahqurania/features/Muslim_features/muslim_features/data/zekr.dart';
 
 import 'package:icons_plus/icons_plus.dart';
 import 'package:flutter/material.dart';
 
 import '../../cubit/cubit/musilm_cubit.dart';
+import '../../data/duaa.dart';
+import '../../data/zekr.dart';
 import '../widgets/zekr.dart';
 
-class Azkar extends StatefulWidget {
-  const Azkar({super.key});
+class duaa_Screen extends StatefulWidget {
+  const duaa_Screen({super.key});
 
   @override
-  State<Azkar> createState() => _AzkarState();
+  State<duaa_Screen> createState() => _duaaState();
 }
 
-class _AzkarState extends State<Azkar> {
-  int cateindex = 0;
-
+class _duaaState extends State<duaa_Screen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -46,10 +45,11 @@ class _AzkarState extends State<Azkar> {
                   ),
                   onPressed: () {
                     context.goBack();
+
                   },
                 ),
                 title: Text(
-                  'Azkar',
+                  'Duaa',
                   style: textstyle.maintitle.copyWith(fontSize: 25.sp),
                 ),
                 centerTitle: true,
@@ -61,23 +61,25 @@ class _AzkarState extends State<Azkar> {
                 child: Column(
                   children: [
                     size.height(15),
-                    // listview horizontal for Azkar
+                    // listview horizontal for Duaa
                     Container(
                       height: 60.h,
                       child: ListView.builder(
-                        itemCount: azkarcategories.length,
+                        itemCount: duaacategories.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
-                              cubit.changecategory(index);
+                              cubit.changecategoryduaa(index);
+                           
+                              
                             },
                             child: Container(
                               margin: EdgeInsets.only(left: 10.w),
                               height: 40.h,
                               width: 130.w,
                               decoration: BoxDecoration(
-                                color: cubit.cateindex == index
+                                color: cubit.cateindexforduaa == index
                                     ? colors.primary
                                     : colors.background,
                                 borderRadius: BorderRadius.circular(10),
@@ -86,10 +88,10 @@ class _AzkarState extends State<Azkar> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    azkarcategories[index],
+                                    duaacategories[index],
                                     style: textstyle.maintitle.copyWith(
                                         fontSize: 15.sp,
-                                        color: cubit.cateindex == index
+                                        color: cubit.cateindexforduaa == index
                                             ? colors.background
                                             : colors.primary),
                                   ),
@@ -107,17 +109,17 @@ class _AzkarState extends State<Azkar> {
                       child: ListView.builder(
                         addAutomaticKeepAlives: false,
                         shrinkWrap: false,
-                        itemCount: cubit.test.length,
+                        itemCount: cubit.duaatest.length,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: zekr(
                               zekr_obj: ZekrModel(
-                                  category: cubit.test[index].category,
-                                  count: cubit.test[index].count,
-                                  description: cubit.test[index].description,
-                                  reference: cubit.test[index].reference,
-                                  content: cubit.test[index].content),
+                                  category:  cubit.duaatest[index].category,
+                                  count: cubit.duaatest[index].count,
+                                  description: cubit.duaatest[index].description,
+                                  reference: cubit.duaatest[index].reference,
+                                  content: cubit.duaatest[index].content),
                             ),
                           );
                         },
