@@ -1,18 +1,27 @@
 import 'package:device_preview/device_preview.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:halaqahqurania/features/Navi/ui/screen/navi.dart';
+import 'features/Auth/ui/screens/signup.dart';
+import 'features/Home/ui/screens/Home.dart';
+import 'features/UserInfo/ui/screens/userInfo.dart';
+import 'firebase_options.dart';
 import 'generated/l10n.dart';
 
-void main() {
+void main() async{
   runApp(
     DevicePreview(
     enabled: !kReleaseMode,
     builder: (context) => MyApp(), // Wrap your app
   ),
   );
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+);
 }
 
 class MyApp extends StatelessWidget {
@@ -38,7 +47,7 @@ class MyApp extends StatelessWidget {
        locale: Locale('en'),
      // locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
-        home:navi(),
+        home:FirebaseAuth.instance.currentUser== null ?SignUp():Home(),
       ),
     );
   }

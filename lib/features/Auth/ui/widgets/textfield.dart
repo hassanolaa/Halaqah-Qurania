@@ -10,6 +10,8 @@ class textfield extends StatelessWidget {
     required this.textfieldhinttext,
     required this.textfieldicon,
     required this.password,
+    required this.controller,
+
 
     super.key,
   
@@ -19,6 +21,7 @@ class textfield extends StatelessWidget {
     String? textfieldhinttext;
     Icon? textfieldicon;
     bool? password;
+    TextEditingController? controller;
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -40,7 +43,7 @@ class textfield extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.only(left: 10.w),
           child: TextField(
-
+          controller: controller,
             obscureText: password!,
             decoration: InputDecoration(
               suffixIcon: password! ? Icon(Icons.visibility_off,color:colors.text) : null,

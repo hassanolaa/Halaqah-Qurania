@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "870558447211",
+    "project_id": "stabrak-65a2b",
+    "storage_bucket": "stabrak-65a2b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:870558447211:android:372f47ad3f5cc2dceb632e",
+        "android_client_info": {
+          "package_name": "com.example.course"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgA8s2sEYlef8BX0th2E37oVlJULVeVEs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:870558447211:android:dbc6e68eaac6e2c3eb632e",
+        "android_client_info": {
+          "package_name": "com.example.halaqahqurania"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgA8s2sEYlef8BX0th2E37oVlJULVeVEs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

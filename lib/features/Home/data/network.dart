@@ -24,7 +24,6 @@ Future<Map<String, String>> getAdanTime(String city, String country) async {
     Adan["Maghrib"] = time["Maghrib"];
     Adan["Isha"] = time["Isha"];
 
-    print(Adan["Isha"]);
 
     return Adan;
   } else {
