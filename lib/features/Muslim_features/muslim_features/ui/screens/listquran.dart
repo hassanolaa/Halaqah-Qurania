@@ -9,6 +9,7 @@ import 'package:halaqahqurania/core/theming/style.dart';
 import 'package:halaqahqurania/features/Auth/ui/widgets/textfield.dart';
 import 'package:halaqahqurania/features/Home/data/models.dart';
 import 'package:halaqahqurania/features/Muslim_features/muslim_features/cubit/cubit/musilm_cubit.dart';
+import 'package:halaqahqurania/features/Muslim_features/muslim_features/ui/screens/playSurah.dart';
 import 'package:halaqahqurania/features/Muslim_features/muslim_features/ui/screens/surah.dart';
 
 class quranlist extends StatefulWidget {
@@ -220,30 +221,37 @@ class _quranlistState extends State<quranlist> {
                                               Row(
                                                 children: [
                                                   // play button
-                                                  Container(
-                                                    width: 55.w,
-                                                    height: 35.h,
-                                                    decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          color:
-                                                              colors.primary),
-                                                      color: colors.background,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
+                                                  GestureDetector(
+                                                    onTap: (){
+                                                        context
+                                                          .navigateTo(playSuarh(id:cubit.quranlist[index]['number'],name:cubit.quranlist[index]['name'],englishname: cubit.quranlist[index]['englishName'],));
+                                                   
+                                                    },
+                                                    child: Container(
+                                                      width: 55.w,
+                                                      height: 35.h,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            color:
+                                                                colors.primary),
+                                                        color: colors.background,
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                      ),
+                                                      child: Center(
+                                                          child: Icon(
+                                                        Icons.play_arrow,
+                                                        color: colors.primary,
+                                                      )),
                                                     ),
-                                                    child: Center(
-                                                        child: Icon(
-                                                      Icons.play_arrow,
-                                                      color: colors.primary,
-                                                    )),
                                                   ),
                                                   size.width(10),
                                                   // read button
                                                   GestureDetector(
                                                     onTap: () {
                                                       context
-                                                          .navigateTo(surah(id:cubit.quranlist[index]['number'],name:cubit.quranlist[index]['name']));
+                                                          .navigateTo(surah(id:cubit.quranlist[index]['number'],name:cubit.quranlist[index]['name'],englishname: cubit.quranlist[index]['englishName'],));
                                                     },
                                                     child: Container(
                                                       width: 55.w,

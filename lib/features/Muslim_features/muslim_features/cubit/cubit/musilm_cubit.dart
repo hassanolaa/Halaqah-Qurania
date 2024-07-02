@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:meta/meta.dart';
 import 'package:halaqahqurania/features/Muslim_features/muslim_features/data/zekr.dart';
 import 'package:halaqahqurania/core/theming/colors.dart';
@@ -28,6 +30,14 @@ class MusilmCubit extends Cubit<MusilmState> {
   List<dynamic> quranlist = [];
 
   List<dynamic> surah = [];
+  List<dynamic> surah2 = [];
+
+  String surahUrl = "";
+  final player = AudioPlayer();
+  Duration duration = Duration.zero;
+  Duration position = Duration.zero;
+  List<dynamic> recitersarabic = [];
+
 
   // for changing the category of azkar
   changecategory(int index) {
@@ -85,10 +95,10 @@ class MusilmCubit extends Cubit<MusilmState> {
   }
 
   // get surah
-  getSurah(int id) async {
+  getSurah(int id, String lang) async {
     emit(SurahLoading());
     try {
-      surah = await quran.getSurah(id, "ar");
+      surah = await quran.getSurah(id, lang);
       emit(SurahLoaded());
     } catch (e) {
       emit(SurahFailed());
@@ -96,15 +106,23 @@ class MusilmCubit extends Cubit<MusilmState> {
   }
 
   // set reading mood
-  setReadingMood(String mood) {
+  setReadingMood(String mood, int id) {
     emit(MusilmLoading());
     try {
       readingmood = mood;
+      if (readingmood == 'arabic') {
+        getSurah(id, 'ar');
+      } else if (readingmood == 'english') {
+        getSurah(id, 'en');
+      } else {
+        getSurahBoth(id);
+      }
       emit(MusilmInitial());
     } catch (e) {
       emit(MusilmFailed());
     }
   }
+
   // font size
   setfontsize(int size) {
     emit(MusilmLoading());
@@ -115,7 +133,8 @@ class MusilmCubit extends Cubit<MusilmState> {
       emit(MusilmFailed());
     }
   }
-  // color 
+
+  // color
   setcolor(Color color) {
     emit(MusilmLoading());
     try {
@@ -126,4 +145,66 @@ class MusilmCubit extends Cubit<MusilmState> {
     }
   }
 
+  // get both languages
+  getSurahBoth(int id) async {
+    emit(SurahLoading());
+    try {
+      surah = await quran.getSurah(id, 'ar');
+      surah2 = await quran.getSurah(id, 'en');
+
+      emit(SurahLoaded());
+    } catch (e) {
+      emit(SurahFailed());
+    }
+  }
+
+  // get surah audio
+  getSurahAudio(int id, int chapter_number) async {
+    emit(SurahAudioLoading());
+    try {
+      surahUrl = await quran.getSurahAudio(id, chapter_number);
+      duration = await player.setUrl(
+        surahUrl,
+      ) as Duration;
+
+      player.durationStream.listen((duration0) {
+        duration = duration0 as Duration;
+      });
+
+      player.positionStream.listen((position0) {
+        position = position0 as Duration;
+      });
+
+      Timer.periodic(Duration(seconds: 1), (timer) {
+        initial();
+      });
+
+      emit(SurahAudioLoaded());
+    } catch (e) {
+      emit(SurahAudioFailed());
+    }
+  }
+
+  // initial
+  initial() {
+    player.durationStream.listen((duration0) {
+      duration = duration0 as Duration;
+    });
+
+    player.positionStream.listen((position0) {
+      position = position0 as Duration;
+    });
+    emit(SurahLoaded());
+  }
+
+  // get reciters
+  getReciters() async {
+    emit(RecitersLoading());
+    try {
+      recitersarabic = await quran.getReciters('ar');
+      emit(RecitersLoaded());
+    } catch (e) {
+      emit(RecitersFailed());
+    }
+  }
 }

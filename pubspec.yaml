@@ -48,6 +48,7 @@ dependencies:
   google_sign_in: ^6.1.6
   flutter_facebook_auth: ^7.0.1
   country_picker: ^2.0.21
+  just_audio: ^0.9.37
   
   
 
