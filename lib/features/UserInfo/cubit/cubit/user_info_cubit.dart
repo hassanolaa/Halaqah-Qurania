@@ -15,7 +15,6 @@ class UserInfoCubit extends Cubit<UserInfoState> {
     emit(GetcitiesLoading());
     try {
       cities = await UserNetwork.getcities(country);
-      print(cities);
       emit(GetcitiesLoaded());
     } catch (e) {
       emit(GetcitiesFailed());

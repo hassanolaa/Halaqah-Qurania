@@ -10,6 +10,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Home/ui/screens/Home.dart';
+import '../../../Navi/ui/screen/navi.dart';
 import '../../cubit/cubit/user_info_cubit.dart';
 import '../widgets/phonetextfield.dart';
 
@@ -409,7 +410,7 @@ class _UserInfoState extends State<UserInfo> {
             ));
           }
           if (state is SendUserDataLoaded) {
-            context.navigateTo(Home());
+            context.navigateTo(navi());
           }
         }));
   }

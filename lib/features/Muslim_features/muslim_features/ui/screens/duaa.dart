@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:halaqahqurania/core/routing/router.dart';
 import 'package:halaqahqurania/core/theming/size.dart';
 import 'package:halaqahqurania/core/theming/colors.dart';
 import 'package:halaqahqurania/core/theming/style.dart';
-import 'package:halaqahqurania/features/Auth/ui/widgets/textfield.dart';
-import 'package:halaqahqurania/features/Home/data/models.dart';
 
-import 'package:icons_plus/icons_plus.dart';
-import 'package:flutter/material.dart';
 
 import '../../cubit/cubit/musilm_cubit.dart';
 import '../../data/duaa.dart';

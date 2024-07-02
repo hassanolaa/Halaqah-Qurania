@@ -2,6 +2,7 @@ import 'dart:convert';
 
 
 import 'package:flutter/material.dart';
+import 'package:halaqahqurania/features/Muslim_features/muslim_features/ui/screens/listquran.dart';
 
 import '../ui/screens/azkar.dart';
 import '../ui/screens/duaa.dart';
@@ -213,7 +214,7 @@ List<Duaa> duaafromanbya2List = [
 
 
   List<Widget> muslim_features = [
-    Container(),
+   quranlist(),
     Container(),
     tasbeh(),
     duaa_Screen(),
