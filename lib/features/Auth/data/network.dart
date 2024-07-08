@@ -64,7 +64,7 @@ class authNetwork {
   }
 
   // signOut firebase function
-  Future<String> signOut() async {
+ static Future<String> signOut() async {
     try {
       await FirebaseAuth.instance.signOut();
 

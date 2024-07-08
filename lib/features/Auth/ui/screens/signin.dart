@@ -11,6 +11,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
 import '../../../Home/ui/screens/Home.dart';
+import '../../../Navi/ui/screen/navi.dart';
 import '../../cubit/cubit/auth_cubit.dart';
 import '../widgets/textfield.dart';
 
@@ -49,7 +50,7 @@ class _signinState extends State<signin> {
                 )));
 
             if (state.response == 'SignIn success') {
-              context.navigateTo(Home());
+              context.navigateTo(navi());
             }
           }
           if (state is ForgetPasswordLoaded) {
