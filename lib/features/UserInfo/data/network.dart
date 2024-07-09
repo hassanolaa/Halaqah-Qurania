@@ -37,7 +37,8 @@ class UserNetwork {
     'phonenumber' : phonenumber,
     'age' :age,
     'gender' : gender,
-    'email':FirebaseAuth.instance.currentUser!.email
+    'email':FirebaseAuth.instance.currentUser!.email,
+    'uid':FirebaseAuth.instance.currentUser!.uid
 
     });
 

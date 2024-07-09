@@ -110,7 +110,7 @@ class _image_massageState extends State<image_massage> {
             height: 150.h,
             decoration: widget.isvideo==true?BoxDecoration() :BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage(widget.messageUrl!), fit: BoxFit.cover)),
+                    image: NetworkImage(widget.messageUrl!), fit: BoxFit.cover)),
           child: widget.isvideo==true?AspectRatio(
             aspectRatio: 16/9,
             child: Chewie(controller: _chewieController,)):null
