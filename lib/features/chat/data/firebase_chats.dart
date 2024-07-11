@@ -88,7 +88,11 @@ class firebase_chats {
   static Future<void> sendmassage(
       String chatid, String massage, String type) async {
     await FirebaseFirestore.instance.collection('Chats').doc(chatid).update({
-      'lastmassage': type == "text" ? massage : "Media",
+      'lastmassage': type == "text"
+          ? massage
+          : type == "image"
+              ? "Media"
+              : 'voice massage',
       'timestamp': DateTime.now().microsecondsSinceEpoch,
       'lastmassagetime': DateFormat.Hm("en_US").format(DateTime.now())
     });
@@ -103,7 +107,8 @@ class firebase_chats {
       'massage': massage,
       'type': type,
       'timestamp': DateTime.now().microsecondsSinceEpoch,
-      'time': DateFormat.Hm("en_US").format(DateTime.now())
+      'time': DateFormat.Hm("en_US").format(DateTime.now()),
+      'seen': false
     });
   }
 
@@ -145,7 +150,7 @@ class firebase_chats {
     }
   }
 
-// get massages 
+// get massages
   static Stream<QuerySnapshot> getmassages(String chatid) {
     return FirebaseFirestore.instance
         .collection('Chats')
@@ -155,7 +160,55 @@ class firebase_chats {
         .snapshots();
   }
 
+// upload audio
+  static Future<void> uploadAudio(
+      String chatid, String path, String type) async {
+    var ref = await FirebaseStorage.instance
+        .ref()
+        .child("records")
+        .child("${Uuid().v4()}.m4a");
 
+    var metadata = SettableMetadata(
+      contentType: "audio/x-m4a",
+    );
+    await ref.putFile(File(path), metadata);
 
+    sendmassage(chatid, await ref.getDownloadURL(), type);
+  }
 
+  // update lasetseen
+  static Future<void> updateLastseen() async {
+    await FirebaseFirestore.instance
+        .collection('UserInfo')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update({'lastseen': DateFormat.Hm("en_US").format(DateTime.now())});
+  }
+
+  // get last seen
+  static Future<String> getLastseen(String userid) async {
+    String lastseen = "";
+    await FirebaseFirestore.instance
+        .collection('UserInfo')
+        .doc(userid)
+        .get()
+        .then((value) {
+      lastseen = value['lastseen'];
+    });
+    return lastseen;
+  }
+
+  static Future<void> markSeen(String chatid, String senderid) async {
+    await FirebaseFirestore.instance
+        .collection('Chats')
+        .doc(chatid)
+        .collection('Massages')
+        .where('senderid', isEqualTo: senderid)
+        .get()
+        .then((value) {
+      value.docs.forEach((element) {
+        element.reference.update({'seen': true});
+      });
+    });
+  }
+  
 }

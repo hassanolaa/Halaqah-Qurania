@@ -4,6 +4,9 @@ import 'package:halaqahqurania/core/theming/size.dart';
 import 'package:halaqahqurania/core/theming/colors.dart';
 import 'package:halaqahqurania/core/theming/style.dart';
 import 'package:halaqahqurania/features/chat/data/firebase_chats.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:record/record.dart';
+import 'package:uuid/uuid.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
 class massages_sender extends StatefulWidget {
@@ -17,6 +20,32 @@ class massages_sender extends StatefulWidget {
 
 class _massages_senderState extends State<massages_sender> {
   TextEditingController _controller = TextEditingController();
+
+  final record = AudioRecorder();
+  bool isRecording = false;
+  String path = "";
+
+  start_record() async {
+    final location = await getApplicationDocumentsDirectory();
+    if (await record.hasPermission()) {
+      // Start recording to file
+      await record.start(const RecordConfig(),
+          path: location.path + Uuid().v4() + 'm4a');
+      setState(() {
+        isRecording = true;
+      });
+    }
+  }
+
+  stop_record() async {
+    String? basepath = await record.stop();
+    setState(() {
+      path = basepath!;
+      isRecording = false;
+    });
+    firebase_chats.uploadAudio(widget.chatid!, path!, "voice record");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -48,7 +77,8 @@ class _massages_senderState extends State<massages_sender> {
                                   // take photo
                                   GestureDetector(
                                     onTap: () {
-                                      firebase_chats.takeanduploadimage(widget.chatid!,true);
+                                      firebase_chats.takeanduploadimage(
+                                          widget.chatid!, true);
                                     },
                                     child: ListTile(
                                       leading: Icon(Icons.camera_alt_outlined,
@@ -64,8 +94,8 @@ class _massages_senderState extends State<massages_sender> {
                                   // upload photo
                                   GestureDetector(
                                     onTap: () {
-                                      firebase_chats.takeanduploadimage(widget.chatid!,false);
-
+                                      firebase_chats.takeanduploadimage(
+                                          widget.chatid!, false);
                                     },
                                     child: ListTile(
                                       leading: Icon(Icons.image,
@@ -81,7 +111,8 @@ class _massages_senderState extends State<massages_sender> {
                                   // upload video
                                   GestureDetector(
                                     onTap: () {
-                                      firebase_chats.uploadvideo(widget.chatid!);
+                                      firebase_chats
+                                          .uploadvideo(widget.chatid!);
                                     },
                                     child: ListTile(
                                       leading: Icon(Icons.video_collection,
@@ -109,7 +140,7 @@ class _massages_senderState extends State<massages_sender> {
                 child: TextField(
                   controller: _controller,
                   decoration: InputDecoration(
-                    hintText: 'Type a message',
+                    hintText: isRecording ? 'Recording' : 'Type a message',
                     hintStyle: textstyle.subtitle.copyWith(fontSize: 15.sp),
                     border: InputBorder.none,
                   ),
@@ -117,7 +148,16 @@ class _massages_senderState extends State<massages_sender> {
               ),
               size.width(7.w),
               // voice icon
-              Icon(Icons.mic, size: 20.sp, color: colors.text),
+              GestureDetector(
+                  onTap: () {
+                    if (isRecording == false) {
+                      start_record();
+                    } else {
+                      stop_record();
+                    }
+                  },
+                  child: Icon(isRecording ? Icons.stop : Icons.mic,
+                      size: 20.sp, color: colors.text)),
               size.width(5.w),
               // send icon
               GestureDetector(

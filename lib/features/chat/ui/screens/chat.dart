@@ -10,6 +10,7 @@ import 'package:halaqahqurania/features/chat/ui/screens/profile.dart';
 import '../widgets/image_massage.dart';
 import '../widgets/massages_sender.dart';
 import '../widgets/text_massage.dart';
+import '../widgets/voice_massage.dart';
 
 class chat extends StatefulWidget {
   chat(
@@ -28,6 +29,28 @@ class chat extends StatefulWidget {
 }
 
 class _chatState extends State<chat> {
+  String lastseen = "Last seen ";
+
+  void getlastseen() async {
+    String baselastseen = await firebase_chats.getLastseen(widget.chatid!);
+    print(baselastseen);
+    setState(() {
+      lastseen = baselastseen;
+      print(lastseen);
+    });
+  }
+
+  void markSeen() async {
+    await firebase_chats.markSeen(widget.chatid!, widget.userid!);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getlastseen();
+    markSeen();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +99,7 @@ class _chatState extends State<chat> {
                         ),
                       ),
                       Text(
-                        'last seen recently',
+                        lastseen!,
                         style: textstyle.subtitle.copyWith(fontSize: 12.sp),
                       ),
                     ],
@@ -123,27 +146,67 @@ class _chatState extends State<chat> {
                               children: [
                                 size.height(10.h),
                                 Row(
-                                  mainAxisAlignment:snapshot.data!.docs[index]['senderid']==firebase_chats.getcurrentuserid()? MainAxisAlignment.end: MainAxisAlignment.end,
+                                  mainAxisAlignment: snapshot.data!.docs[index]
+                                              ['senderid'] ==
+                                          firebase_chats.getcurrentuserid()
+                                      ? MainAxisAlignment.end
+                                      : MainAxisAlignment.end,
                                   children: [
-                                    snapshot.data!.docs[index]['type']=="text"?
-                                      text_massage(
-                                        username: snapshot.data!.docs[index]['sendername'],
-                                        time: snapshot.data!.docs[index]['time'],
-                                        message: snapshot.data!.docs[index]['massage'],
-                                        seen: false,
-                                        isSender: snapshot.data!.docs[index]['senderid']==firebase_chats.getcurrentuserid()? true: false,
-                                      ):
-                                    
-                                    image_massage(
-                                        username: snapshot.data!.docs[index]['sendername'],
-                                        time: snapshot.data!.docs[index]['time'],
-                                        messageUrl: snapshot.data!.docs[index]['massage'],
-                                        seen: false,
-                                        isSender: snapshot.data!.docs[index]['senderid']==firebase_chats.getcurrentuserid()? true: false,
-                                        isvideo: false)
+                                    snapshot.data!.docs[index]['type'] == "text"
+                                        ? text_massage(
+                                            username: snapshot.data!.docs[index]
+                                                ['sendername'],
+                                            time: snapshot.data!.docs[index]
+                                                ['time'],
+                                            message: snapshot.data!.docs[index]
+                                                ['massage'],
+                                            seen: snapshot.data!.docs[index]
+                                                ['seen'],
+                                            isSender: snapshot.data!.docs[index]
+                                                        ['senderid'] ==
+                                                    firebase_chats
+                                                        .getcurrentuserid()
+                                                ? true
+                                                : false,
+                                          )
+                                        : snapshot.data!.docs[index]['type'] ==
+                                                "image"
+                                            ? image_massage(
+                                                username: snapshot.data!
+                                                    .docs[index]['sendername'],
+                                                time: snapshot.data!.docs[index]
+                                                    ['time'],
+                                                messageUrl: snapshot.data!
+                                                    .docs[index]['massage'],
+                                                seen: snapshot.data!.docs[index]
+                                                    ['seen'],
+                                                isSender: snapshot.data!
+                                                                .docs[index]
+                                                            ['senderid'] ==
+                                                        firebase_chats
+                                                            .getcurrentuserid()
+                                                    ? true
+                                                    : false,
+                                                isvideo: false)
+                                            : voice_massage(
+                                                username: snapshot.data!
+                                                    .docs[index]['sendername'],
+                                                time: snapshot.data!.docs[index]
+                                                    ['time'],
+                                                message: snapshot.data!
+                                                    .docs[index]['massage'],
+                                                seen: snapshot.data!.docs[index]
+                                                    ['seen'],
+                                                isSender: snapshot.data!
+                                                                .docs[index]
+                                                            ['senderid'] ==
+                                                        firebase_chats
+                                                            .getcurrentuserid()
+                                                    ? true
+                                                    : false,
+                                              )
                                   ],
                                 ),
-                              
                               ],
                             );
                           },
@@ -154,6 +217,7 @@ class _chatState extends State<chat> {
                     }
                   },
                 ))),
+        size.height(80.h),
       ]),
     );
   }

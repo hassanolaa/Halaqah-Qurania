@@ -7,6 +7,7 @@ import 'package:halaqahqurania/core/theming/style.dart';
 import 'package:halaqahqurania/features/Auth/ui/widgets/textfield.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:halaqahqurania/features/chat/data/firebase_chats.dart';
 
 import '../../../Home/ui/screens/Home.dart';
 import '../../../Muslim_features/category/ui/screens/categories.dart';
@@ -14,8 +15,8 @@ import '../../../UserInfo/ui/screens/settings.dart';
 import '../../../chat/ui/screens/chats.dart';
 
 List<Widget> screens = [
- Home(),
- chats(),
+  Home(),
+  chats(),
   Container(
     child: Center(
       child: Text('Video Call'),
@@ -39,7 +40,13 @@ class _naviState extends State<navi> {
     setState(() {
       selector = index;
       varscreen = screens[index];
-          });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    firebase_chats.updateLastseen();
   }
 
   @override
@@ -61,13 +68,12 @@ class _naviState extends State<navi> {
                   IconButton(
                     icon: Icon(Icons.home_outlined),
                     onPressed: () {
-                   
                       setState(() {
                         varscreen = screens[0];
                         selectorfun(0);
                       });
                     },
-                    color:selector==0? colors.primary:colors.subtext,
+                    color: selector == 0 ? colors.primary : colors.subtext,
                     iconSize: 30,
                   ),
                   size.height(1),
@@ -75,7 +81,8 @@ class _naviState extends State<navi> {
                     height: 2.h,
                     width: 40.w,
                     decoration: BoxDecoration(
-                        color: selector==0? colors.primary:colors.background,
+                        color:
+                            selector == 0 ? colors.primary : colors.background,
                         borderRadius: BorderRadius.circular(5)),
                   )
                 ],
@@ -86,12 +93,12 @@ class _naviState extends State<navi> {
                   IconButton(
                     icon: Icon(CupertinoIcons.chat_bubble_2),
                     onPressed: () {
-                       setState(() {
+                      setState(() {
                         varscreen = screens[1];
                         selectorfun(1);
                       });
                     },
-                    color: selector==1? colors.primary:colors.subtext,
+                    color: selector == 1 ? colors.primary : colors.subtext,
                     iconSize: 30,
                   ),
                   size.height(1),
@@ -99,7 +106,8 @@ class _naviState extends State<navi> {
                     height: 2.h,
                     width: 40.w,
                     decoration: BoxDecoration(
-                        color: selector==1? colors.primary:colors.background,
+                        color:
+                            selector == 1 ? colors.primary : colors.background,
                         borderRadius: BorderRadius.circular(5)),
                   )
                 ],
@@ -110,12 +118,12 @@ class _naviState extends State<navi> {
                   IconButton(
                     icon: Icon(Icons.video_call_outlined),
                     onPressed: () {
-                       setState(() {
+                      setState(() {
                         varscreen = screens[2];
                         selectorfun(2);
                       });
                     },
-                    color: selector==2? colors.primary:colors.subtext,
+                    color: selector == 2 ? colors.primary : colors.subtext,
                     iconSize: 30,
                   ),
                   size.height(1),
@@ -123,7 +131,8 @@ class _naviState extends State<navi> {
                     height: 2.h,
                     width: 40.w,
                     decoration: BoxDecoration(
-                        color: selector==2? colors.primary:colors.background,
+                        color:
+                            selector == 2 ? colors.primary : colors.background,
                         borderRadius: BorderRadius.circular(5)),
                   )
                 ],
@@ -134,12 +143,12 @@ class _naviState extends State<navi> {
                   IconButton(
                     icon: Icon(Icons.menu_book_rounded),
                     onPressed: () {
-                       setState(() {
+                      setState(() {
                         varscreen = screens[3];
                         selectorfun(3);
                       });
                     },
-                    color: selector==3? colors.primary:colors.subtext,
+                    color: selector == 3 ? colors.primary : colors.subtext,
                     iconSize: 30,
                   ),
                   size.height(1),
@@ -147,7 +156,8 @@ class _naviState extends State<navi> {
                     height: 2.h,
                     width: 40.w,
                     decoration: BoxDecoration(
-                        color: selector==3? colors.primary:colors.background,
+                        color:
+                            selector == 3 ? colors.primary : colors.background,
                         borderRadius: BorderRadius.circular(5)),
                   )
                 ],
@@ -158,12 +168,12 @@ class _naviState extends State<navi> {
                   IconButton(
                     icon: Icon(CupertinoIcons.person_alt_circle_fill),
                     onPressed: () {
-                       setState(() {
+                      setState(() {
                         varscreen = screens[4];
                         selectorfun(4);
                       });
                     },
-                    color: selector==4? colors.primary:colors.subtext,
+                    color: selector == 4 ? colors.primary : colors.subtext,
                     iconSize: 30,
                   ),
                   size.height(1),
@@ -171,7 +181,8 @@ class _naviState extends State<navi> {
                     height: 2.h,
                     width: 40.w,
                     decoration: BoxDecoration(
-                        color: selector==4? colors.primary:colors.background,
+                        color:
+                            selector == 4 ? colors.primary : colors.background,
                         borderRadius: BorderRadius.circular(5)),
                   )
                 ],

@@ -11,5 +11,11 @@ final class getusersloaded extends ChatState {}
 final class getusersfailed extends ChatState {}
 
 
+// get audio
+final class AudioLoading extends ChatState {}
+final class AudioLoaded extends ChatState {}
+final class AudioFailed extends ChatState {}
+
+
 
 
