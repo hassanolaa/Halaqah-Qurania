@@ -104,7 +104,7 @@ class _chatsState extends State<chats> {
                                                         ),
                                                         trailing:
                                                             GestureDetector(
-                                                          onTap: () async{
+                                                          onTap: () async {
                                                             if (await firebase_chats
                                                                     .checkchat(snapshot
                                                                             .data!
@@ -195,13 +195,63 @@ class _chatsState extends State<chats> {
                 // listview for active users
                 Container(
                   height: 95.h,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 7,
-                    itemBuilder: (context, index) {
-                      return activeUsers(
-                        imagepath: "images/3.png",
-                      );
+                  child: StreamBuilder(
+                    stream: firebase_chats.getuserchats(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child:
+                              CircularProgressIndicator(color: colors.primary),
+                        );
+                      } else {
+                        if (snapshot.hasData) {
+                          return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  context.navigateTo(chat(
+                                        chatid: snapshot.data!.docs[index]
+                                            ['chatid'],
+                                        userid:
+                                            snapshot.data!.docs[index]['userid'] == firebase_chats.getcurrentuserid()
+                                                ? snapshot.data!.docs[index]
+                                                    ['otheruserid']
+                                                : snapshot.data!.docs[index]
+                                                    ['userid'],
+                                        username:
+                                            snapshot.data!.docs[index]['userid'] == firebase_chats.getcurrentuserid()
+                                                ? snapshot.data!.docs[index]
+                                                    ['otherusername']
+                                                : snapshot.data!.docs[index]
+                                                    ['username'],
+                                        userimage: snapshot.data!.docs[index]
+                                                    ['userid'] ==
+                                                firebase_chats.getcurrentuserid()
+                                            ? snapshot.data!.docs[index]['otheruserimage']
+                                            : snapshot.data!.docs[index]['userimage']));
+                                },
+                                child: activeUsers(
+                                  imagepath: snapshot.data!.docs[index]
+                                                      ['userid'] ==
+                                                  firebase_chats.getcurrentuserid()
+                                              ? snapshot.data!.docs[index]['otheruserimage']
+                                              : snapshot.data!.docs[index]['userimage'] ,
+                                ),
+                              );
+                            },
+                          );
+                        } else {
+                          return Center(
+                            child: Text(
+                              'No Chats Yet',
+                              style: textstyle.subtitle
+                                  .copyWith(color: colors.text),
+                            ),
+                          );
+                        }
+                      }
                     },
                   ),
                 )
@@ -210,6 +260,10 @@ class _chatsState extends State<chats> {
                 Padding(
                   padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 5.h),
                   child: TextField(
+                    onChanged: (value){
+                      cubit.searchbyname(value);
+                    
+                    },
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: colors.background,
@@ -274,8 +328,8 @@ class _chatsState extends State<chats> {
                   ),
                 ),
                 size.height(10.h),
-
                 // chats
+                cubit.searching==""?
                 Container(
                   height: MediaQuery.sizeOf(context).height * 0.4,
                   child: StreamBuilder(
@@ -299,30 +353,23 @@ class _chatsState extends State<chats> {
                                     context.navigateTo(chat(
                                         chatid: snapshot.data!.docs[index]
                                             ['chatid'],
-                                        userid:snapshot
-                                                  .data!
-                                                  .docs[index]['userid'] ==
-                                              firebase_chats.getcurrentuserid()
-                                          ?
-                                      snapshot.data!.docs[index]
-                                              ['otheruserid']
-                                          : snapshot.data!.docs[index]
-                                              ['userid'],
-                                      username: snapshot.data!.docs[index]['userid'] ==
-                                              firebase_chats.getcurrentuserid()
-                                          ? snapshot.data!.docs[index]
-                                              ['otherusername']
-                                          : snapshot.data!.docs[index]
-                                              ['username'],
-                                        userimage: snapshot
-                                                  .data!
-                                                  .docs[index]['userid'] ==
-                                              firebase_chats.getcurrentuserid()
-                                          ? snapshot.data!.docs[index]
-                                              ['otheruserimage']
-                                          : snapshot.data!.docs[index]
-                                              ['userimage']
-                                    ));
+                                        userid:
+                                            snapshot.data!.docs[index]['userid'] == firebase_chats.getcurrentuserid()
+                                                ? snapshot.data!.docs[index]
+                                                    ['otheruserid']
+                                                : snapshot.data!.docs[index]
+                                                    ['userid'],
+                                        username:
+                                            snapshot.data!.docs[index]['userid'] == firebase_chats.getcurrentuserid()
+                                                ? snapshot.data!.docs[index]
+                                                    ['otherusername']
+                                                : snapshot.data!.docs[index]
+                                                    ['username'],
+                                        userimage: snapshot.data!.docs[index]
+                                                    ['userid'] ==
+                                                firebase_chats.getcurrentuserid()
+                                            ? snapshot.data!.docs[index]['otheruserimage']
+                                            : snapshot.data!.docs[index]['userimage']));
                                   },
                                   child: ListTile(
                                     leading: CircleAvatar(
@@ -353,7 +400,8 @@ class _chatsState extends State<chats> {
                                           .copyWith(fontSize: 13.sp),
                                     ),
                                     trailing: Text(
-                                       snapshot.data!.docs[index]['lastmassagetime'],
+                                      snapshot.data!.docs[index]
+                                          ['lastmassagetime'],
                                       style: textstyle.maintitle.copyWith(
                                           fontSize: 13.sp,
                                           fontWeight: FontWeight.normal),
@@ -373,7 +421,128 @@ class _chatsState extends State<chats> {
                               );
                             },
                           );
-                        } else {
+                        } else if (snapshot.data!.docs.length==0) {
+                          return Center(
+                            child: Text(
+                              'No Chats Yet',
+                              style: textstyle.subtitle
+                                  .copyWith(color: colors.text),
+                            ),
+                          );
+                        }else {
+                          return Center(
+                            child: Text(
+                              'No Chats Yet',
+                              style: textstyle.subtitle
+                                  .copyWith(color: colors.text),
+                            ),
+                          );
+                        }
+                      }
+                    },
+                  ),
+                ):
+                    Container(
+                  height: MediaQuery.sizeOf(context).height * 0.4,
+                  child: StreamBuilder(
+                    stream: firebase_chats.getchatbychatid(cubit.chatid),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child:
+                              CircularProgressIndicator(color: colors.primary),
+                        );
+                      } else {
+                        if (snapshot.hasData) {
+                          return ListView.separated(
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding:
+                                    EdgeInsets.only(left: 10.w, right: 10.w),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    context.navigateTo(chat(
+                                        chatid: snapshot.data!.docs[index]
+                                            ['chatid'],
+                                        userid:
+                                            snapshot.data!.docs[index]['userid'] == firebase_chats.getcurrentuserid()
+                                                ? snapshot.data!.docs[index]
+                                                    ['otheruserid']
+                                                : snapshot.data!.docs[index]
+                                                    ['userid'],
+                                        username:
+                                            snapshot.data!.docs[index]['userid'] == firebase_chats.getcurrentuserid()
+                                                ? snapshot.data!.docs[index]
+                                                    ['otherusername']
+                                                : snapshot.data!.docs[index]
+                                                    ['username'],
+                                        userimage: snapshot.data!.docs[index]
+                                                    ['userid'] ==
+                                                firebase_chats.getcurrentuserid()
+                                            ? snapshot.data!.docs[index]['otheruserimage']
+                                            : snapshot.data!.docs[index]['userimage']));
+                                  },
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                      backgroundColor: colors.primary,
+                                      radius: 22.sp,
+                                      backgroundImage: NetworkImage(snapshot
+                                                  .data!
+                                                  .docs[index]['userid'] ==
+                                              firebase_chats.getcurrentuserid()
+                                          ? snapshot.data!.docs[index]
+                                              ['otheruserimage']
+                                          : snapshot.data!.docs[index]
+                                              ['userimage']),
+                                    ),
+                                    title: Text(
+                                      snapshot.data!.docs[index]['userid'] ==
+                                              firebase_chats.getcurrentuserid()
+                                          ? snapshot.data!.docs[index]
+                                              ['otherusername']
+                                          : snapshot.data!.docs[index]
+                                              ['username'],
+                                      style: textstyle.maintitle
+                                          .copyWith(fontSize: 15.sp),
+                                    ),
+                                    subtitle: Text(
+                                      snapshot.data!.docs[index]['lastmassage'],
+                                      style: textstyle.subtitle
+                                          .copyWith(fontSize: 13.sp),
+                                    ),
+                                    trailing: Text(
+                                      snapshot.data!.docs[index]
+                                          ['lastmassagetime'],
+                                      style: textstyle.maintitle.copyWith(
+                                          fontSize: 13.sp,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return Padding(
+                                padding:
+                                    EdgeInsets.only(right: 20.w, left: 20.w),
+                                child: Divider(
+                                  color: colors.text,
+                                  thickness: 0.3.h,
+                                ),
+                              );
+                            },
+                          );
+                        }else if (snapshot.data!.docs.length==0) {
+                          return Center(
+                            child: Text(
+                              'No Chats Yet',
+                              style: textstyle.subtitle
+                                  .copyWith(color: colors.text),
+                            ),
+                          );
+                        }
+                         else {
                           return Center(
                             child: Text(
                               'No Chats Yet',
@@ -386,6 +555,7 @@ class _chatsState extends State<chats> {
                     },
                   ),
                 )
+            
               ]),
             ),
           );

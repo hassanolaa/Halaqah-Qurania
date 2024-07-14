@@ -100,7 +100,7 @@ class _image_massageState extends State<image_massage> {
               Icon(
                 widget.seen == true ? Icons.done_all : Icons.done,
                 size: 15.sp,
-                color: colors.text,
+                color:  widget.seen==true? colors.primary: colors.text,
               ),
             ],
           ),

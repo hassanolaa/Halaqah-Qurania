@@ -63,7 +63,7 @@ import 'package:halaqahqurania/core/theming/style.dart';
                                 Icon(
                               seen==true? Icons.done_all:Icons.done,
                                   size: 15.sp,
-                                  color: colors.text,
+                                  color:   seen==true? colors.primary:colors.text,
                                 ),
                               
                               ],

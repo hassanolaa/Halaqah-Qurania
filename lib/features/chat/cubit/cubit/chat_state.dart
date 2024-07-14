@@ -16,6 +16,11 @@ final class AudioLoading extends ChatState {}
 final class AudioLoaded extends ChatState {}
 final class AudioFailed extends ChatState {}
 
+//get search
+final class SearchLoading extends ChatState {}
+final class SearchLoaded extends ChatState {}
+final class SearchFailed extends ChatState {}
+
 
 
 

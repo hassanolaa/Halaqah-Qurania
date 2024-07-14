@@ -19,9 +19,9 @@ class activeUsers extends StatelessWidget {
         children: [
           CircleAvatar(
             backgroundColor: colors.background,
-            radius: 38.r,
+            radius: 33.r,
             backgroundImage:
-                AssetImage(imagepath!),
+                NetworkImage(imagepath!),
           ),
           Positioned(
             right: 0,

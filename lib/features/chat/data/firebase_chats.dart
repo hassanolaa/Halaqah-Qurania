@@ -33,9 +33,10 @@ class firebase_chats {
       'otheruserid': otheruserid,
       'otherusername': otherusername,
       'otheruserimage': otheruserimage,
-      'lastmassage': "",
+      'lastmassage': "Created At",
       'timestamp': DateTime.now().microsecondsSinceEpoch,
-      'part': [FirebaseAuth.instance.currentUser!.uid, otheruserid]
+      'part': [FirebaseAuth.instance.currentUser!.uid, otheruserid],
+      'lastmassagetime': DateFormat.Hm("en_US").format(DateTime.now())
     });
   }
 
@@ -197,6 +198,7 @@ class firebase_chats {
     return lastseen;
   }
 
+  // mark seen
   static Future<void> markSeen(String chatid, String senderid) async {
     await FirebaseFirestore.instance
         .collection('Chats')
@@ -210,5 +212,83 @@ class firebase_chats {
       });
     });
   }
-  
+
+  // search chat by username
+  static Future<String> searchbyname(String username) async {
+    String chatid = "";
+    await FirebaseFirestore.instance
+        .collection('Chats')
+        .where('part', arrayContains: FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((value) {
+      value.docs.forEach((element) {
+        if (element.data()['username'].toString().toUpperCase() ==
+            username.toUpperCase()) {
+          chatid = element.data()['chatid'];
+        } else if (element.data()['otherusername'].toString().toUpperCase() ==
+            username.toUpperCase()) {
+          chatid = element.data()['chatid'];
+        } else {
+          chatid = "";
+        }
+      });
+    });
+
+    return chatid;
+  }
+
+  // get chat by chatid
+  static Stream<QuerySnapshot> getchatbychatid(String chatid) {
+    return FirebaseFirestore.instance
+        .collection('Chats')
+        .where('chatid', isEqualTo: chatid)
+        .snapshots();
+  }
+
+  // get userInfo by userid
+  static Future<Map<String, dynamic>> getUserinfoById(String userid) async {
+    Map<String, dynamic> userinfo = {};
+    await FirebaseFirestore.instance
+        .collection('UserInfo')
+        .doc(userid)
+        .get()
+        .then((value) {
+      userinfo['userid'] = value['uid'];
+      userinfo['username'] = value['name'];
+      userinfo['userimage'] = value['userimage'];
+      userinfo['age'] = value['age'];
+      userinfo['city'] = value['city'];
+      userinfo['country'] = value['country'];
+      userinfo['email'] = value['email'];
+      userinfo['country'] = value['country'];
+      userinfo['lastseen'] = value['lastseen'];
+      userinfo['phonenumber'] = value['phonenumber'];
+    });
+    return userinfo;
+  }
+
+  // delete chat by chatid
+  static Future<void> deletechat(String chatid) async {
+    await FirebaseFirestore.instance
+        .collection('Chats')
+        .doc(chatid)
+        .collection('Massages')
+        .get()
+        .then((value) {
+      value.docs.forEach((element) {
+        element.reference.delete();
+      });
+    });
+    await FirebaseFirestore.instance.collection('Chats').doc(chatid).delete();
+  }
+
+  // delete massage by chatid and massageid
+  static Future<void> deletemassage(String chatid, String massageid) async {
+    await FirebaseFirestore.instance
+        .collection('Chats')
+        .doc(chatid)
+        .collection('Massages')
+        .doc(massageid)
+        .delete();
+  }
 }

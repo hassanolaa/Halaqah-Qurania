@@ -14,22 +14,22 @@ class ChatCubit extends Cubit<ChatState> {
   final player = AudioPlayer();
   Duration duration = Duration.zero;
   Duration position = Duration.zero;
+  String chatid = '';
+  String searching = "";
 
-   
   // get all users
- Stream<QuerySnapshot>  getallusers() {
+  Stream<QuerySnapshot> getallusers() {
     emit(getusersloading());
     emit(getusersloaded());
-  return firebase_chats.getallusers();
+    return firebase_chats.getallusers();
   }
 
-
-    // get audio
-  getAudio( String voiceUrl) async {
+  // get audio
+  getAudio(String voiceUrl) async {
     emit(AudioLoading());
     try {
       duration = await player.setUrl(
-       voiceUrl,
+        voiceUrl,
       ) as Duration;
 
       player.durationStream.listen((duration0) {
@@ -62,8 +62,11 @@ class ChatCubit extends Cubit<ChatState> {
     emit(AudioLoaded());
   }
 
-
-
-
-
+  // search by name
+  Future<void> searchbyname(String name) async {
+    emit(getusersloading());
+    chatid = await firebase_chats.searchbyname(name);
+    searching = name;
+    emit(getusersloaded());
+  }
 }
