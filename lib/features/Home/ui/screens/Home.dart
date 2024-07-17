@@ -7,6 +7,7 @@ import 'package:halaqahqurania/core/theming/size.dart';
 import 'package:halaqahqurania/core/theming/colors.dart';
 import 'package:halaqahqurania/core/theming/style.dart';
 import 'package:halaqahqurania/features/Home/data/models.dart';
+import '../../../videocall/data/firebase_stream.dart';
 
 import '../../../Muslim_features/muslim_features/data/duaa.dart';
 import '../../Cubit/cubit/home_cubit.dart';
@@ -94,18 +95,32 @@ class _HomeState extends State<Home> {
                   )
                   // live stream listview
                   ,
-                  Container(
+                     StreamBuilder(
+              stream:firebase_stream.getstreams() ,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: colors.primary,
+                    ),
+                  );
+                } else {
+                  return Container(
                     height: 95.h,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: home_widget_model_list.length,
+                      itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) {
                         return LiveIcon(
-                          imagepath: home_widget_model_list[index].imagepath,
+                          imagepath: snapshot.data!.docs[index]['streamimage'],
                         );
                       },
                     ),
-                  )
+                  );
+                }
+              },
+            )
+          
                   // Muslim Icons listview
                   ,
                   Container(

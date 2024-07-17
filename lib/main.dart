@@ -9,6 +9,7 @@ import 'package:halaqahqurania/features/Navi/ui/screen/navi.dart';
 import 'features/Auth/ui/screens/signup.dart';
 import 'features/Home/ui/screens/Home.dart';
 import 'features/UserInfo/ui/screens/userInfo.dart';
+import 'features/videocall/ui/screens/videoSdk/Screens/joinMeeting.dart';
 import 'firebase_options.dart';
 import 'generated/l10n.dart';
 
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
        locale: Locale('en'),
      // locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
-        home:FirebaseAuth.instance.currentUser== null ?SignUp():navi(),
+        home:FirebaseAuth.instance.currentUser== null ?SignUp(): JoinScreen(), //navi(),
       ),
     );
   }
@@ -66,4 +67,3 @@ class _testState extends State<test> {
     return Container();
   }
 }
-

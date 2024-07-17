@@ -25,7 +25,7 @@ class LiveIcon extends StatelessWidget {
             backgroundColor: colors.background,
             radius: 35.r,
             backgroundImage:
-                AssetImage(imagepath!),
+                NetworkImage(imagepath!),
           ),
           Positioned(
             right: 0,

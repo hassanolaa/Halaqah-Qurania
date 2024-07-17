@@ -13,15 +13,12 @@ import '../../../Home/ui/screens/Home.dart';
 import '../../../Muslim_features/category/ui/screens/categories.dart';
 import '../../../UserInfo/ui/screens/settings.dart';
 import '../../../chat/ui/screens/chats.dart';
+import '../../../videocall/ui/screens/streamsScreen.dart';
 
 List<Widget> screens = [
   Home(),
   chats(),
-  Container(
-    child: Center(
-      child: Text('Video Call'),
-    ),
-  ),
+  streamScreen(),
   categories(),
   settings(),
 ];
