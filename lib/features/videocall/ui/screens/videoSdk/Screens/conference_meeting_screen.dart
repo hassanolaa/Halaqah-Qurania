@@ -620,7 +620,7 @@ class _ConfereneceMeetingScreenState extends State<ConfereneceMeetingScreen> {
       }
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => const JoinScreen()),
+          MaterialPageRoute(builder: (context) =>  JoinScreen(streamname: "",id:"",join:false)),
           (route) => false);
     });
 

@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 class firebase_stream {
 // upload image
 // take image
-  static Future<String> takeanduploadimage( bool take) async {
+  static Future<String> takeanduploadimage(bool take) async {
     File? file;
     ImagePicker picker = ImagePicker();
     XFile? image = take == true
@@ -36,7 +36,11 @@ class firebase_stream {
     String userimage = "";
     String usercity = "";
     String usercountry = "";
-    await FirebaseFirestore.instance.collection('UserInfo').doc(FirebaseAuth.instance.currentUser!.uid).get().then((value) {
+    await FirebaseFirestore.instance
+        .collection('UserInfo')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((value) {
       username = value['name'];
       userimage = value['userimage'];
       usercity = value['city'];
@@ -45,13 +49,13 @@ class firebase_stream {
 
     await FirebaseFirestore.instance.collection('Streams').add({
       'streamname': streamname,
-      'streamimage': streamimage,
+      'streamimage':
+          "https://firebasestorage.googleapis.com/v0/b/stabrak-65a2b.appspot.com/o/images.jpg?alt=media&token=ea322bf5-66a5-4a37-ad6a-191ccdd47b47", //streamimage,
       'streamid': streamid,
       'username': username,
       'userimage': userimage,
       'userlocation': "$usercity - $usercountry",
-      'viewers':0
-
+      'viewers': 0
 
       // 'timestamp': FieldValue.serverTimestamp(),
     });
@@ -62,4 +66,16 @@ class firebase_stream {
     return FirebaseFirestore.instance.collection('Streams').snapshots();
   }
 
+  // Getusername
+  static Future<String> getusername()async {
+    String username = "";
+   await FirebaseFirestore.instance
+        .collection("UserInfo")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((value) {
+      username = value["name"];
+    });
+    return username;
+  }
 }

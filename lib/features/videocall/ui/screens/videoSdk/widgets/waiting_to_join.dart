@@ -15,11 +15,14 @@ class WaitingToJoin extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
           //  Lottie.asset("assets/joining_lottie.json", width: 100),
+          CircularProgressIndicator(
+            color: Appcolors.black900,
+          ),
             SizedBox(height: 20.h,),
-            const Text("Creating a Room",
+             Text("Creating a Room",
                 style: TextStyle(
                     fontSize: 20,
-                    color: Colors.white,
+                    color: Appcolors.black900,
                     fontWeight: FontWeight.w500)),
           ],
         ),

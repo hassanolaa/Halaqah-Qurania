@@ -48,7 +48,8 @@ class MyApp extends StatelessWidget {
        locale: Locale('en'),
      // locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
-        home:FirebaseAuth.instance.currentUser== null ?SignUp(): JoinScreen(), //navi(),
+        home:FirebaseAuth.instance.currentUser== null ?SignUp(): navi(),
+    //   home:JoinScreen()
       ),
     );
   }

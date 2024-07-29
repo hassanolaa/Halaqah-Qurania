@@ -6,6 +6,7 @@ import 'package:halaqahqurania/core/routing/router.dart';
 import 'package:halaqahqurania/core/theming/size.dart';
 import 'package:halaqahqurania/core/theming/colors.dart';
 import 'package:halaqahqurania/core/theming/style.dart';
+import 'package:halaqahqurania/features/videocall/ui/screens/videoSdk/Screens/joinMeeting.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 import '../../../videocall/data/firebase_stream.dart';
 
@@ -37,6 +38,7 @@ class _streamScreenState extends State<streamScreen> {
           children: [
             size.height(30.h),
             // row include streams text and add icon
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -76,7 +78,7 @@ class _streamScreenState extends State<streamScreen> {
             size.height(20.h),
             // live stream listview
             StreamBuilder(
-              stream:firebase_stream.getstreams() ,
+              stream: firebase_stream.getstreams(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
@@ -100,7 +102,7 @@ class _streamScreenState extends State<streamScreen> {
                 }
               },
             )
-          
+
             // search bar          ,
             ,
             Padding(
@@ -124,45 +126,50 @@ class _streamScreenState extends State<streamScreen> {
             size.height(10.h),
             // grid view of stream card
             StreamBuilder(
-              stream:firebase_stream.getstreams(),
-              builder: (context, snapshot) {
-                if(snapshot.connectionState==ConnectionState.waiting){
-                return Center(child: CircularProgressIndicator(color:colors.primary),);
-                }else{
-                  return   Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.8,
-                  crossAxisSpacing: 10.w,
-                  mainAxisSpacing: 10.h,
-                ),
-                itemCount: snapshot.data!.docs.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      //  Navigator.pushNamed(context, streamScreenRoute);
-                    },
-                    child: streamcard(
-                      username: snapshot.data!.docs[index]['username'],
-                      userimage: snapshot.data!.docs[index]['userimage'],
-                      streamtitle: snapshot.data!.docs[index]['streamname'],
-                      streamimage: snapshot.data!.docs[index]['streamimage'],
-                      countrycity: snapshot.data!.docs[index]['userlocation'],
-                      viewers: snapshot.data!.docs[index]['viewers'],
-                    ),
-                  );
-                },
-              ),
-            );
-         
-                }
-              }),
-            
-           ],
+                stream: firebase_stream.getstreams(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(color: colors.primary),
+                    );
+                  } else {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.8,
+                          crossAxisSpacing: 10.w,
+                          mainAxisSpacing: 10.h,
+                        ),
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              //  Navigator.pushNamed(context, streamScreenRoute);
+                              context.navigateTo(JoinScreen(streamname: "",id:snapshot.data!.docs[index]['streamid'],join:true));
+                            },
+                            child: streamcard(
+                              username: snapshot.data!.docs[index]['username'],
+                              userimage: snapshot.data!.docs[index]
+                                  ['userimage'],
+                              streamtitle: snapshot.data!.docs[index]
+                                  ['streamname'],
+                              streamimage: snapshot.data!.docs[index]
+                                  ['streamimage'],
+                              countrycity: snapshot.data!.docs[index]
+                                  ['userlocation'],
+                              viewers: snapshot.data!.docs[index]['viewers'],
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  }
+                }),
+          ],
         ),
       ),
     );
