@@ -6,6 +6,7 @@ import 'package:halaqahqurania/features/Muslim_features/muslim_features/ui/scree
 
 import '../ui/screens/azkar.dart';
 import '../ui/screens/duaa.dart';
+import '../ui/screens/hadith.dart';
 import '../ui/screens/tasbeh.dart';
 
 class Duaa {
@@ -215,7 +216,7 @@ List<Duaa> duaafromanbya2List = [
 
   List<Widget> muslim_features = [
    quranlist(),
-    Container(),
+    hadith(),
     tasbeh(),
     duaa_Screen(),
     Azkar()

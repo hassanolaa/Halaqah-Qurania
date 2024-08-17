@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:halaqahqurania/core/routing/router.dart';
+import 'package:halaqahqurania/core/local/local.dart';
+
 import 'package:halaqahqurania/core/theming/size.dart';
 import 'package:halaqahqurania/core/theming/colors.dart';
 import 'package:halaqahqurania/core/theming/style.dart';
@@ -56,6 +58,7 @@ class _quranlistState extends State<quranlist> {
             final cubit = BlocProvider.of<MusilmCubit>(context);
 
             return Scaffold(
+              backgroundColor: colors.backbackground,
               body: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -103,14 +106,14 @@ class _quranlistState extends State<quranlist> {
                                       Row(
                                         children: [
                                           Text(
-                                            'Surah Al-Fatihah',
+                                           localdata.hasData("surahname")?localdata.getString( "surahname"):"لا يوجد سورة محفوظة",
                                             style: textstyle.maintitle.copyWith(
                                                 color: colors.text,
                                                 fontSize: 18.sp),
                                           ),
                                         ],
                                       ),
-                                      size.height(30),
+                                      size.height(10),
                                       // surah No
                                       Row(
                                         children: [
@@ -142,6 +145,27 @@ class _quranlistState extends State<quranlist> {
                     ),
                     size.height(20),
                     // list view.builder for the Quran list
+                        // search bar
+                
+                Padding(
+                  padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 5.h),
+                  child: TextField(
+                    onChanged: (value){
+                    
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: colors.background,
+                      hintText: 'Search',
+                      prefixIcon: Icon(Icons.search),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                              color: colors.sub_background, width: 0)),
+                    ),
+                  ),
+                ),
+                size.height(10.h),
 
                     state is QuranListLoading
                         ? Center(
@@ -223,6 +247,11 @@ class _quranlistState extends State<quranlist> {
                                                   // play button
                                                   GestureDetector(
                                                     onTap: (){
+
+                                                      setState(() {
+                                                        localdata.addString("surahname", "${cubit.quranlist[index]['name']}\n${cubit.quranlist[index]['englishName']}");                                       
+
+                                                      });
                                                         context
                                                           .navigateTo(playSuarh(id:cubit.quranlist[index]['number'],name:cubit.quranlist[index]['name'],englishname: cubit.quranlist[index]['englishName'],));
                                                    
@@ -250,6 +279,11 @@ class _quranlistState extends State<quranlist> {
                                                   // read button
                                                   GestureDetector(
                                                     onTap: () {
+                                                      setState(() {
+                                                        localdata.addString("surahname", "${cubit.quranlist[index]['name']}\n${cubit.quranlist[index]['englishName']}");                                       
+
+                                                      });
+
                                                       context
                                                           .navigateTo(surah(id:cubit.quranlist[index]['number'],name:cubit.quranlist[index]['name'],englishname: cubit.quranlist[index]['englishName'],));
                                                     },

@@ -12,8 +12,9 @@ import 'features/UserInfo/ui/screens/userInfo.dart';
 import 'features/videocall/ui/screens/videoSdk/Screens/joinMeeting.dart';
 import 'firebase_options.dart';
 import 'generated/l10n.dart';
-
+import 'package:get_storage/get_storage.dart';
 void main() async{
+    await GetStorage.init();
   runApp(
     DevicePreview(
     enabled: !kReleaseMode,

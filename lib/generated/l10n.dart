@@ -59,6 +59,126 @@ class S {
       args: [],
     );
   }
+
+  /// `Hello.`
+  String get hello {
+    return Intl.message(
+      'Hello.',
+      name: 'hello',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Account`
+  String get createaac {
+    return Intl.message(
+      'Create Account',
+      name: 'createaac',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email`
+  String get email {
+    return Intl.message(
+      'Email',
+      name: 'email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter email`
+  String get entermail {
+    return Intl.message(
+      'Enter email',
+      name: 'entermail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get password {
+    return Intl.message(
+      'Password',
+      name: 'password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Password`
+  String get enterpassword {
+    return Intl.message(
+      'Enter Password',
+      name: 'enterpassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hassan`
+  String get user {
+    return Intl.message(
+      'Hassan',
+      name: 'user',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Quran`
+  String get Quran {
+    return Intl.message(
+      'Quran',
+      name: 'Quran',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hadith`
+  String get Hadith {
+    return Intl.message(
+      'Hadith',
+      name: 'Hadith',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tasbeh`
+  String get Tasbeh {
+    return Intl.message(
+      'Tasbeh',
+      name: 'Tasbeh',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Duaa`
+  String get Duaa {
+    return Intl.message(
+      'Duaa',
+      name: 'Duaa',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Azkar`
+  String get Azkar {
+    return Intl.message(
+      'Azkar',
+      name: 'Azkar',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

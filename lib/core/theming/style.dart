@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:halaqahqurania/core/local/local.dart';
 import 'package:halaqahqurania/core/theming/colors.dart';
 
 
@@ -10,7 +11,7 @@ class textstyle{
  static  TextStyle maintitle = TextStyle(
     fontSize: 32.sp,
      fontWeight: FontWeight.bold,
-     color: colors.text,
+     color: localdata.hasData("mood")==true? localdata.getbool("mood")==true?  Color(0xFFFFFFFF): Color(0xff000000):colors.text,
      fontFamily: 'Lexend'
    );
   
@@ -18,7 +19,7 @@ class textstyle{
   static TextStyle subtitle = TextStyle(
      fontSize: 18.sp,
      fontWeight: FontWeight.normal,
-     color: colors.subtext,
+     color: localdata.hasData("mood")==true? localdata.getbool("mood")==true?  Color(0xff9095a1): Color(0xff9095a1):colors.subtext,
      fontFamily: 'Lexend'
    );
   

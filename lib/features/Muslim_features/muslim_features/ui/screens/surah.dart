@@ -57,15 +57,18 @@ class _surahState extends State<surah> {
           if (state is SurahLoading) {
             return Center(
               child: CircularProgressIndicator(
+                backgroundColor: colors.backbackground,
                 color: colors.primary,
               ),
             );
           } else {
             return Scaffold(
+              backgroundColor: colors.backbackground,
                 bottomSheet: showsettings == false
                     ? null
                     : Container(
                         height: 400.h,
+                        color: colors.background,
                         child: Column(
                           children: [
                             size.height(20),

@@ -31,4 +31,15 @@ final class RecitersLoading extends MusilmState {}
 final class RecitersLoaded extends MusilmState {}
 final class RecitersFailed extends MusilmState {}
 
+// get ayat
+final class AyahLoading extends MusilmState {}
+final class AyahLoaded extends MusilmState {}
+final class AyahFailed extends MusilmState {}
+
+
+// get hadith 
+final class HadithLoading extends MusilmState {}
+final class HadithLoaded extends MusilmState {}
+final class HadithFailed extends MusilmState {}
+
 

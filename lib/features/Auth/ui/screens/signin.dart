@@ -65,6 +65,7 @@ class _signinState extends State<signin> {
         }, builder: (context, state) {
           final cubit = BlocProvider.of<AuthCubit>(context);
           return Scaffold(
+            backgroundColor: colors.backbackground,
               body: Column(children: [
             size.height(60),
             // Hello text
@@ -86,7 +87,7 @@ class _signinState extends State<signin> {
               controller: emailController,
               textfieldname: 'Email',
               textfieldhinttext: 'Enter email',
-              textfieldicon: Icon(Icons.email_outlined),
+              textfieldicon: Icon(Icons.email_outlined,color:colors.text),
               password: false,
             ),
             size.height(25),
@@ -95,7 +96,7 @@ class _signinState extends State<signin> {
               controller: passwordController,
               textfieldname: 'Password',
               textfieldhinttext: 'Enter Password',
-              textfieldicon: Icon(Icons.lock_open),
+              textfieldicon: Icon(Icons.lock_open,color:colors.text),
               password: true,
             ),
             size.height(15),

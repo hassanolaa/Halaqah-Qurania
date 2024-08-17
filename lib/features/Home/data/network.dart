@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:http/http.dart' as http;
+
+import '../../Muslim_features/muslim_features/data/quran.dart';
 
 Future<Map<String, String>> getAdanTime(String city, String country) async {
   final date = DateTime.now();
@@ -24,8 +27,31 @@ Future<Map<String, String>> getAdanTime(String city, String country) async {
     Adan["Maghrib"] = time["Maghrib"];
     Adan["Isha"] = time["Isha"];
 
-
     return Adan;
+  } else {
+    throw Exception("Failed");
+  }
+}
+
+// get Ayah
+
+Future<ayahModel> getayah() async {
+  final url = Uri.parse(
+      "https://api.alquran.cloud/v1/ayah/${Random().nextInt(6235) + 1}/ar.asad");
+  final response = await http.get(url);
+
+  if (response.statusCode == 200) {
+    final data = jsonDecode(response.body) as Map<String, dynamic>;
+    ayahModel ayah = ayahModel(
+      ayah: data['data']['text'],
+      ayahnumber: data['data']['surah']['numberOfAyahs'],
+      surahname: data['data']['surah']['name'],
+      surahnumber: data['data']['surah']['number'],
+      englishname: data['data']['surah']['englishName']
+    );
+    
+
+    return ayah;
   } else {
     throw Exception("Failed");
   }

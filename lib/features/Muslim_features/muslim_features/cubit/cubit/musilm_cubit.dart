@@ -9,6 +9,7 @@ import 'package:halaqahqurania/core/theming/colors.dart';
 
 import '../../data/duaa.dart';
 import 'package:halaqahqurania/features/Muslim_features/muslim_features/data/quran.dart';
+import 'package:halaqahqurania/features/Muslim_features/muslim_features/data/hadith.dart';
 
 part 'musilm_state.dart';
 
@@ -38,6 +39,10 @@ class MusilmCubit extends Cubit<MusilmState> {
   Duration position = Duration.zero;
   List<dynamic> recitersarabic = [];
 
+  List<String> hadith = [];
+  int hadithindex = 0;
+
+  List<ayahModel> ayat = [];
 
   // for changing the category of azkar
   changecategory(int index) {
@@ -205,6 +210,31 @@ class MusilmCubit extends Cubit<MusilmState> {
       emit(RecitersLoaded());
     } catch (e) {
       emit(RecitersFailed());
+    }
+  }
+
+  // get ahadith
+  getHadith(String amamName, int index) async {
+    emit(HadithLoading());
+    try {
+      hadith = await hadithApi.getHadith(amamName);
+      hadithindex = index;
+      emit(HadithLoaded());
+    } catch (e) {
+      emit(HadithFailed());
+    }
+  }
+
+  // get ayat
+  getAyah(String word) async {
+    emit(AyahLoading());
+    try {
+      ayat = await quran.getAyah(word);
+      emit(AyahLoaded());
+      print(ayat[0].ayah);
+      print(ayat.length);
+    } catch (e) {
+      emit(AyahFailed());
     }
   }
 }

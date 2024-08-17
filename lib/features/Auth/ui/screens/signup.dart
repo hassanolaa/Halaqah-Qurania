@@ -9,6 +9,7 @@ import 'package:halaqahqurania/features/Auth/cubit/cubit/auth_cubit.dart';
 import 'package:halaqahqurania/features/Auth/ui/screens/signin.dart';
 import 'package:halaqahqurania/features/Home/ui/screens/Home.dart';
 import 'package:halaqahqurania/features/UserInfo/ui/screens/userInfo.dart';
+import 'package:halaqahqurania/generated/l10n.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 import '../widgets/textfield.dart';
@@ -49,37 +50,39 @@ class _SignUpState extends State<SignUp> {
         builder: (context, state) {
           final cubit = BlocProvider.of<AuthCubit>(context);
           return Scaffold(
+            backgroundColor: colors.backbackground,
+
               body: Column(children: [
-            size.height(60),
+            size.height(20),
             // Hello text
             Row(
               children: [
                 size.width(130),
-                Text('Hello.', style: textstyle.maintitle),
+                Text(S.of(context).hello, style: textstyle.maintitle),
               ],
             ),
             size.height(15),
             // Create Account text
             Text(
-              'Create Account',
+              S.of(context).createaac,
               style: textstyle.subtitle,
             ),
             size.height(30),
             // email textfield
             textfield(
               controller: emailController,
-              textfieldname: 'Email',
-              textfieldhinttext: 'Enter email',
-              textfieldicon: Icon(Icons.email_outlined),
+              textfieldname:S.of(context).email ,
+              textfieldhinttext: S.of(context).entermail,
+              textfieldicon: Icon(Icons.email_outlined,color:colors.text),
               password: false,
             ),
             size.height(25),
             // password textfield
             textfield(
               controller: passwordController,
-              textfieldname: 'Password',
-              textfieldhinttext: 'Enter Password',
-              textfieldicon: Icon(Icons.lock_open),
+              textfieldname: S.of(context).password,
+              textfieldhinttext: S.of(context).enterpassword,
+              textfieldicon: Icon(Icons.lock_open,color:colors.text),
               password: true,
             ),
             size.height(5),

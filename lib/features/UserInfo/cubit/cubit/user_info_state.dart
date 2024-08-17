@@ -21,3 +21,11 @@ final class SendUserDataFailed extends UserInfoState {
   String? failed;
   SendUserDataFailed({this.failed});
 }
+
+
+// lightmood
+
+final class lightmoodLoaded extends UserInfoState {}
+
+final class lightmoodLoading extends UserInfoState {}
+

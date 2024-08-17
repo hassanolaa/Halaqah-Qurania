@@ -1,4 +1,17 @@
 {
 
-    "name":"Halaqah Qurania"
+    "name":"Halaqah Qurania",
+    "hello":"Hello.",
+    "createaac":"Create Account",
+    "email":"Email",
+    "entermail":"Enter email",
+    "password":"Password",
+    "enterpassword":"Enter Password",
+    "user":"Hassan",
+    "Quran":"Quran",
+    "Hadith":"Hadith",
+    "Tasbeh":"Tasbeh",
+    "Duaa":"Duaa",
+    "Azkar":"Azkar"
+
 }
